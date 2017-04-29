@@ -104,7 +104,7 @@ if __name__ == '__main__':
 	#authorize twitter, initialize tweepy
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_key, access_secret)
-	api = tweepy.API(auth)
+	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 	#pass in the username of the account you want to download
 	get_all_tweets("","user")
