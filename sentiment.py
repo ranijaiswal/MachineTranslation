@@ -8,9 +8,9 @@ from nltk.sentiment.util import *
 n_instances = 100
 subj_docs = [(sent, 'subj') for sent in subjectivity.sents(categories='subj')[:n_instances]]
 obj_docs = [(sent, 'obj') for sent in subjectivity.sents(categories='obj')[:n_instances]]
-len(subj_docs), len(obj_docs)
-(100, 100)
-Each document is represented by a tuple (sentence, label). The sentence is tokenized, so it is represented by a list of strings:
+
+num_tweets = len(subj_docs)
+num_obj = len(obj_docs)
 
 >>> subj_docs[0]
 (['smart', 'and', 'alert', ',', 'thirteen', 'conversations', 'about', 'one',
