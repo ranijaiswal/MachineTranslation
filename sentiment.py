@@ -1,10 +1,6 @@
 import nltk
 
 from nltk import *
-from nltk.classify import NaiveBayesClassifier
-from nltk.corpus import subjectivity
-from nltk.sentiment import SentimentAnalyzer
-from nltk.sentiment.util import *
 # from nltk.probability import FreqDist, DictionaryProbDist, ELEProbDist
 
 # get training tweets
