@@ -107,9 +107,9 @@ if __name__ == '__main__':
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 	#pass in the username of the account you want to download
-	get_all_tweets("","user")
+	# get_all_tweets("","user")
 
 	#pass in the hashtag you want to download
-	get_all_tweets("#","hashtag")
+	get_all_tweets("MAGA","hashtag")
 
 
