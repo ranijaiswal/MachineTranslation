@@ -3,20 +3,36 @@ import nltk
 from nltk import *
 # from nltk.probability import FreqDist, DictionaryProbDist, ELEProbDist
 
+# http://thinknook.com/twitter-sentiment-analysis-training-corpus-dataset-2012-09-22/
+# DATASET IS FROM ABOVE LINK ^
+import csv
+
+alltweets = {}
+pos_tweets = []
+neg_tweets = []
+with open('Sentiment Analysis Dataset 2.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter='\t')
+    for row in reader:
+        alltweets[row[0]] = row[2]
+        if row[1] == '1':
+            pos_tweets.append((row[2],'positive'))
+        elif row[1] == '0':
+            neg_tweets.append((row[2],'negative'))
+pos_tweets = pos_tweets[:10000]
+neg_tweets = neg_tweets[:10000]
+
 # get training tweets
+# pos_tweets = [('I love this car', 'positive'),
+#               ('This view is amazing', 'positive'),
+#               ('I feel great this morning', 'positive'),
+#               ('I am so excited about the concert', 'positive'),
+# 	          ('He is my best friend', 'positive')]
 
-
-pos_tweets = [('I love this car', 'positive'),
-              ('This view is amazing', 'positive'),
-              ('I feel great this morning', 'positive'),
-              ('I am so excited about the concert', 'positive'),
-	          ('He is my best friend', 'positive')]
-
-neg_tweets = [('I do not like this car', 'negative'),
-              ('This view is horrible', 'negative'),
-              ('I feel tired this morning', 'negative'),
-              ('I am not looking forward to the concert', 'negative'),
-              ('He is my enemy', 'negative')]
+# neg_tweets = [('I do not like this car', 'negative'),
+#               ('This view is horrible', 'negative'),
+#               ('I feel tired this morning', 'negative'),
+#               ('I am not looking forward to the concert', 'negative'),
+#               ('He is my enemy', 'negative')]
 
 tweets = []
 
@@ -26,12 +42,12 @@ for (words, sentiment) in pos_tweets + neg_tweets:
 
 # get test tweets
 
-test_tweets = [
-    (['feel', 'happy', 'this', 'morning'], 'positive'),
-    (['larry', 'friend'], 'positive'),
-    (['not', 'like', 'that', 'man'], 'negative'),
-    (['house', 'not', 'great'], 'negative'),
-    (['your', 'song', 'annoying'], 'negative')]
+# test_tweets = [
+#     (['feel', 'happy', 'this', 'morning'], 'positive'),
+#     (['larry', 'friend'], 'positive'),
+#     (['not', 'like', 'that', 'man'], 'negative'),
+#     (['house', 'not', 'great'], 'negative'),
+#     (['your', 'song', 'annoying'], 'negative')]
 
 # classifier
 
@@ -72,6 +88,7 @@ def train(labeled_featuresets, estimator=ELEProbDist):
     return (label_probdist, NaiveBayesClassifier(label_probdist, feature_probdist))
 
 # print(classifier.show_most_informative_features(32))
+print("Trained")
 
-tweet = 'Larry is my friend'
+tweet = 'way to go'
 print(classifier.classify(extract_features(tweet.split())))
