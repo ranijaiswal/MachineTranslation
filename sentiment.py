@@ -7,21 +7,22 @@ from nltk import *
 # DATASET IS FROM ABOVE LINK ^
 import csv
 
+## get training tweets, both positive and negative
+
 alltweets = {}
 pos_tweets = []
 neg_tweets = []
-with open('Sentiment Analysis Dataset 2.csv', 'r') as csvfile:
-    reader = csv.reader(csvfile, delimiter='\t')
+with open('sample.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
-        alltweets[row[0]] = row[2]
         if row[1] == '1':
-            pos_tweets.append((row[2],'positive'))
+            pos_tweets.append((row[0],'positive'))
         elif row[1] == '0':
-            neg_tweets.append((row[2],'negative'))
-pos_tweets = pos_tweets[:10000]
-neg_tweets = neg_tweets[:10000]
+            neg_tweets.append((row[0],'negative'))
+pos_tweets=pos_tweets[0:100]
+neg_tweets=neg_tweets[0:100]
 
-# get training tweets
+
 # pos_tweets = [('I love this car', 'positive'),
 #               ('This view is amazing', 'positive'),
 #               ('I feel great this morning', 'positive'),
@@ -40,16 +41,15 @@ for (words, sentiment) in pos_tweets + neg_tweets:
     words_filtered = [e.lower() for e in words.split() if len(e) >= 3]
     tweets.append((words_filtered, sentiment))
 
-# get test tweets
+## get test tweets
 
-# test_tweets = [
-#     (['feel', 'happy', 'this', 'morning'], 'positive'),
-#     (['larry', 'friend'], 'positive'),
-#     (['not', 'like', 'that', 'man'], 'negative'),
-#     (['house', 'not', 'great'], 'negative'),
-#     (['your', 'song', 'annoying'], 'negative')]
+test_tweets = []
+with open('MAGA_tweets.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter='\t')
+    for row in reader:
+        test_tweets.append(row[0])
 
-# classifier
+## classifier
 
 def get_words_in_tweets(tweets):
     all_words = []
@@ -88,7 +88,6 @@ def train(labeled_featuresets, estimator=ELEProbDist):
     return (label_probdist, NaiveBayesClassifier(label_probdist, feature_probdist))
 
 # print(classifier.show_most_informative_features(32))
-print("Trained")
 
-tweet = 'way to go'
-print(classifier.classify(extract_features(tweet.split())))
+# for test_tweet in test_tweets:
+print(classifier.classify(extract_features(test_tweets[0].split())) + "; test_tweet: " + test_tweets[0])
