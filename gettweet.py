@@ -51,7 +51,7 @@ def from_user(screen_name):
 #get latest 1000 tweets with given hashtag
 def with_hashtag(hashtag):
 	alltweets=[]
-	new_tweets= api.search(hashtag, rpp=15)
+	new_tweets= api.search(hashtag, rpp=200)
 	alltweets.extend(new_tweets)
 	#save the id of the oldest tweet less one
 	oldest = alltweets[-1].id - 1
@@ -61,7 +61,7 @@ def with_hashtag(hashtag):
 		print("getting tweets before %s" % (oldest))
 		
 		#all subsiquent requests use the max_id param to prevent duplicates
-		new_tweets = api.search(hashtag, rpp=15, since_id=oldest)
+		new_tweets = api.search(hashtag, count=100, max_id=oldest)
 
 		#save most recent tweets
 		alltweets.extend(new_tweets)
@@ -107,9 +107,9 @@ if __name__ == '__main__':
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 	#pass in the username of the account you want to download
-	get_all_tweets("","user")
+	# get_all_tweets("QueenRanifah","user")
 
 	#pass in the hashtag you want to download
-	get_all_tweets("#","hashtag")
+	get_all_tweets("MAGA","hashtag")
 
 

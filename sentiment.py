@@ -3,20 +3,37 @@ import nltk
 from nltk import *
 # from nltk.probability import FreqDist, DictionaryProbDist, ELEProbDist
 
-# get training tweets
+# http://thinknook.com/twitter-sentiment-analysis-training-corpus-dataset-2012-09-22/
+# DATASET IS FROM ABOVE LINK ^
+import csv
+
+## get training tweets, both positive and negative
+
+alltweets = {}
+pos_tweets = []
+neg_tweets = []
+with open('sample.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+    for row in reader:
+        if row[1] == '1':
+            pos_tweets.append((row[0],'positive'))
+        elif row[1] == '0':
+            neg_tweets.append((row[0],'negative'))
+pos_tweets=pos_tweets[0:100]
+neg_tweets=neg_tweets[0:100]
 
 
-pos_tweets = [('I love this car', 'positive'),
-              ('This view is amazing', 'positive'),
-              ('I feel great this morning', 'positive'),
-              ('I am so excited about the concert', 'positive'),
-	          ('He is my best friend', 'positive')]
+# pos_tweets = [('I love this car', 'positive'),
+#               ('This view is amazing', 'positive'),
+#               ('I feel great this morning', 'positive'),
+#               ('I am so excited about the concert', 'positive'),
+# 	          ('He is my best friend', 'positive')]
 
-neg_tweets = [('I do not like this car', 'negative'),
-              ('This view is horrible', 'negative'),
-              ('I feel tired this morning', 'negative'),
-              ('I am not looking forward to the concert', 'negative'),
-              ('He is my enemy', 'negative')]
+# neg_tweets = [('I do not like this car', 'negative'),
+#               ('This view is horrible', 'negative'),
+#               ('I feel tired this morning', 'negative'),
+#               ('I am not looking forward to the concert', 'negative'),
+#               ('He is my enemy', 'negative')]
 
 tweets = []
 
@@ -24,16 +41,15 @@ for (words, sentiment) in pos_tweets + neg_tweets:
     words_filtered = [e.lower() for e in words.split() if len(e) >= 3]
     tweets.append((words_filtered, sentiment))
 
-# get test tweets
+## get test tweets
 
-test_tweets = [
-    (['feel', 'happy', 'this', 'morning'], 'positive'),
-    (['larry', 'friend'], 'positive'),
-    (['not', 'like', 'that', 'man'], 'negative'),
-    (['house', 'not', 'great'], 'negative'),
-    (['your', 'song', 'annoying'], 'negative')]
+test_tweets = []
+with open('MAGA_tweets.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter='\t')
+    for row in reader:
+        test_tweets.append(row[0])
 
-# classifier
+## classifier
 
 def get_words_in_tweets(tweets):
     all_words = []
@@ -73,5 +89,5 @@ def train(labeled_featuresets, estimator=ELEProbDist):
 
 # print(classifier.show_most_informative_features(32))
 
-tweet = 'Larry is my friend'
-print(classifier.classify(extract_features(tweet.split())))
+# for test_tweet in test_tweets:
+print(classifier.classify(extract_features(test_tweets[0].split())) + "; test_tweet: " + test_tweets[0])
