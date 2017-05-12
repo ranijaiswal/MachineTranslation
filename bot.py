@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import tweepy, time, sys
-
-argfile = str(sys.argv[1])
+import tweepy, time, sys, json
 
 #enter the corresponding information from your Twitter application:
 CONSUMER_KEY = 'Akt8RpbTNFihflTXFx4bQ1yo1'#keep the quotes, replace this with your consumer key
@@ -14,10 +12,18 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
-filename=open(argfile,'r')
-f=filename.readlines()
-filename.close()
+def find_trends():
+	print(json.dumps(api.trends_place(2459115), indent=2))
 
-for line in f:
-    api.update_status(line)
-    time.sleep(60)#Tweet every 15 minutes
+find_trends()
+
+def tweet(the_file):
+	argfile = the_file
+	filename=open(argfile,'r')
+	f=filename.readlines()
+	filename.close()
+
+	for line in f:
+	    api.update_status(line)
+	    time.sleep(60)#Tweet every 15 minutes
+
