@@ -19,8 +19,8 @@ with open('sample.csv', 'r') as csvfile:
             pos_tweets.append((row[0],'positive'))
         elif row[1] == '0':
             neg_tweets.append((row[0],'negative'))
-pos_tweets=pos_tweets[0:100]
-neg_tweets=neg_tweets[0:100]
+pos_tweets=pos_tweets[0:1000]
+neg_tweets=neg_tweets[0:1000]
 
 
 # pos_tweets = [('I love this car', 'positive'),
@@ -89,5 +89,8 @@ def train(labeled_featuresets, estimator=ELEProbDist):
 
 # print(classifier.show_most_informative_features(32))
 
-# for test_tweet in test_tweets:
-print(classifier.classify(extract_features(test_tweets[0].split())) + "; test_tweet: " + test_tweets[0])
+for test_tweet in test_tweets:
+    print(classifier.classify(extract_features(test_tweet.split())) + "; test_tweet: " + test_tweet)
+
+# sentence = "tax cuts without spending limits will not make america great again"
+# print(classifier.classify(extract_features(sentence.split())) + "; sentence: " + sentence)
